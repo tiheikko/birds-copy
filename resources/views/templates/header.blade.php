@@ -5,12 +5,15 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>Птицы Псковской области</title>
 
-		
+
 		<link rel="stylesheet" href="{{ asset('/resources/css/gallery.css') }}">
 		<link rel="stylesheet" href="{{ asset('/resources/css/fontawesome-free-6.4.0-web/css/all.min.css') }}">
-		
-		
-		
+
+
+        <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+
+
+
 	</head>
 
 	<body>
@@ -25,7 +28,7 @@
 			<div class="search__block">
 				<form action="{{ route('search') }}">
 					@csrf
-					
+
 					<input type="text" name="search" placeholder="Поиск птиц...">
 				</form>
 
@@ -38,19 +41,20 @@
 		<nav>
 			<a class="all__category" href="{{ route('gallery.index') }}"> Все </a>
 			<a class="rare__category" href="{{ route('gallery_rare.index') }}"> Редкие </a>
-			<a class="red_list__category" href="{{ route('gallery_red_list.index') }}"> Красная книга </a> 
+			<a class="red_list__category" href="{{ route('gallery_red_list.index') }}"> Красная книга </a>
 			<a class="classification__category" href="{{ route('gallery_classification.index') }}"> Классификация </a>
 		</nav>
-		
+
 		<main>
 
 			<div class="wrapper">
 
-		
+
 				@yield('main_content')
 
 	</body>
 
 	@extends('plugins.select_category')
-
+    @extends('plugins.ajax_send')
+    @extends('plugins.map')
 </html>

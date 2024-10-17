@@ -8,6 +8,7 @@ use App\Models\Family;
 use App\Models\Genus;
 use App\Models\Image;
 use App\Models\Article;
+use App\Models\BirdsStatistic;
 
 use Illuminate\Http\Request;
 
@@ -21,8 +22,9 @@ class ArticleController extends Controller
         $bird = Species::find($id);
         $article = Article::where('bird_id', $id)->first();
         $main_img = Image::where('species_id', $id)->first();
+        $count_users = BirdsStatistic::where('bird_id', $id)->distinct('user_id')->count();
 
-        return view('article.index', compact('species', 'article', 'main_img'));
+        return view('article.index', compact('species', 'article', 'main_img', 'count_users'));
     }
 
     public function create() {
@@ -197,5 +199,29 @@ class ArticleController extends Controller
         $article->delete();
 
         return redirect()->route('article.show');
+    }
+
+    public function saw_bird(Request $request) {
+        /*$validated = $request->validate([
+            'data' => 'required|string"max:255',
+            'bird_id' => 'required|exists:species,id',
+            'user_id' => 'required|exists:users,id',
+        ]);
+
+        $record = BirdsStatistic::create([
+            'bird_id' => $validated['bird_id'],
+            'user_id' => $validated['user_id'],
+            'where_seen' => $validated['data'],
+        ]);*/
+
+        $record = BirdsStatistic::create([
+            'bird_id' => $request->input('bird_id'),
+            'user_id' => $request->input('user_id'),
+            'date_seen' => $request->input('date'),
+            'latitude' => $request->input('latitude'),
+            'longitude' => $request->input('longitude'),
+        ]);
+
+        return response()->json(['success' => true, 'message' => 'successfully']);
     }
 }
