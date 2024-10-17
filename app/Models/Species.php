@@ -10,6 +10,7 @@ use App\Models\Family;
 use App\Models\Genus;
 use App\Models\Image;
 use App\Models\Article;
+use App\Models\BirdsStatistic;
 
 class Species extends Model
 {
@@ -36,5 +37,10 @@ class Species extends Model
 
     public function articles() {
          return $this->belongsTo(Article::class, 'bird_id', 'id');
+    }
+
+    public function statistics()
+    {
+        return $this->belongsTo(BirdsStatistic::class, 'bird_id', 'id');
     }
 }

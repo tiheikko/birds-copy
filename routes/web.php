@@ -18,6 +18,8 @@ use App\Http\Controllers\FamilyController;
 use App\Http\Controllers\GenusController;
 use App\Http\Controllers\SpeciesController;
 
+use App\Http\Controllers\ProfileStatisticsController;
+
 
 
 use Illuminate\Support\Facades\Route;
@@ -36,13 +38,15 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('/dashboard', function () {
-    return view('admin.index');
+    return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::get('/dashboard/statistics', [ProfileStatisticsController::class, 'index'])->name('statistics.index');
 });
 
 require __DIR__.'/auth.php';
@@ -66,6 +70,7 @@ Route::get('/search_results', [SearchController::class, 'search'])->name('search
 
 //ARTICLES PAGES
 Route::get('/article/{species}', [ArticleController::class, 'index'])->name('article.index');
+Route::post('/article/{species}', [ArticleController::class, 'saw_bird'])->name('article.saw_bird'); // for sending form if a person has seen it
 
 
 
