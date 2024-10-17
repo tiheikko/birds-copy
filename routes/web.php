@@ -20,7 +20,7 @@ use App\Http\Controllers\SpeciesController;
 
 use App\Http\Controllers\ProfileStatisticsController;
 
-
+use App\Mail\SendMail;
 
 use Illuminate\Support\Facades\Route;
 
@@ -98,3 +98,8 @@ Route::get('/dashboard/articles/', [ArticleController::class, 'show'])->name('ar
 Route::get('/dashboard/articles/{article}', [ArticleController::class, 'edit'])->name('article.edit');
 Route::patch('/dashboard/articles/{article}', [ArticleController::class, 'update'])->name('article.update');
 Route::delete('/dashboard/articles/{article}', [ArticleController::class, 'destroy'])->name('article.destroy');
+
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
