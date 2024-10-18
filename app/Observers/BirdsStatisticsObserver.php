@@ -22,12 +22,15 @@ class BirdsStatisticsObserver
             ->where('date_seen', '>', $oneWeekAgo)
             ->exists();
 
-        $otherUsersSaw = BirdsStatistic::where('bird_id', $birdsStatistic->bird_id)
-            ->where('user_id', '!=', $birdsStatistic->user_id)
-            ->exists();
+        if (!$otherUsers) {
+            $records = BirdsStatistic::where('bird_id', $birdsStatistic->bird_id)
+                ->where('user_id', '!=', $birdsStatistic->user_id)
+                ->where('date_seen', '>', $oneWeekAgo)
+                ->get();
 
-        if (!$otherUsers and $otherUsersSaw) {
-            $users = User::where('id', '!=', $birdsStatistic->user_id)->get();
+            $userIDs = $records->pluck('user_id')->unique();
+
+            $users = User::whereIn('id', $userIDs)->get();
 
             foreach ($users as $user) {
                 Mail::to($user->email)->send(new SendMail($birdsStatistic));
