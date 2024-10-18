@@ -93,42 +93,42 @@
 						@endif
 						<p> {{ $article->habitat }} </p>
 					</div>
+
+                    <div class="who_saw_the_bird">
+                        <h2>Статистика по птице</h2>
+                        <div>
+                            <p>Сколько человек видело эту птицу: {{ $count_users }}</p>
+                        </div>
+
+                        <h3>Вы видели эту птицу? Тогда отметьте это!</h3>
+                        @auth
+                            <form action="" id="i_saw__button">
+                                @csrf
+
+                                <label for="date">Когда видели птицу? </label>
+                                <input type="date" name="date" id="date" max="{{ date('Y-m-d') }}" value="{{ date('Y-m-d') }}">
+
+                                <label for="latitude">Широта: </label>
+                                <input type="text" name="latitude" id="latitude" readonly>
+
+                                <label for="longitude">Долгота: </label>
+                                <input type="text" name="longitude" id="longitude" readonly>
+
+                                <div id="map" style="height: 300px; width: 50%"></div>
+
+                                <input type="hidden" name="bird_id" value="{{ $species->id }}">
+                                <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
+                                <button type="submit">Отправить</button>
+                            </form>
+
+                            <div id="message"></div>
+                        @else
+                            <p>Пожалуйста, <a href="{{ route('login') }}">войдите</a> или <a href="{{ route('register') }}">зарегистрируйтесь</a>, чтобы оставить наблюдение.</p>
+                        @endauth
+
+                        @endif
+                    </div>
 				</div>
-
-                <div>
-                    <p>Эту птицу видело {{ $count_users }} человек </p>
-                </div>
-
-                @auth
-
-                    <form action="" id="i_saw__button">
-                        @csrf
-
-                        <label for="date">Когда видели птицу? </label>
-                        <input type="date" name="date" id="date">
-
-                        <label for="latitude">Широта: </label>
-                        <input type="text" name="latitude" id="latitude" readonly>
-
-                        <label for="longitude">Долгота: </label>
-                        <input type="text" name="longitude" id="longitude" readonly>
-
-                        <div id="map" style="height: 300px; width: 50%"></div>
-
-                        <input type="hidden" name="bird_id" value="{{ $species->id }}">
-                        <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
-                        <button type="submit">тык</button>
-                    </form>
-
-
-
-                    <div id="message"></div>
-                @else
-                    <p>Пожалуйста, <a href="{{ route('login') }}">войдите</a> или <a href="{{ route('register') }}">зарегистрируйтесь</a>, чтобы оставить наблюдение.</p>
-                @endauth
-
-			@endif
-
 		</div>
 	</main>
 

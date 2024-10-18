@@ -6,10 +6,22 @@
         maxZoom: 19,
     }).addTo(map);
 
+    var def_lat = 57.821985;
+    var def_lng = 28.333067;
     var marker;
+
+    var def_marker = L.marker([def_lat, def_lng]).addTo(map);
+    document.getElementById('latitude').value = def_lat;
+    document.getElementById('longitude').value = def_lng;
+
     map.on('click', function(e) {
         var lat = e.latlng.lat;
         var lng = e.latlng.lng;
+
+        if (def_marker) {
+            map.removeLayer(def_marker);
+            def_marker = null;
+        }
 
         if (marker) {
             marker.setLatLng([lat, lng]);

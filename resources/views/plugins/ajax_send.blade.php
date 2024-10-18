@@ -5,7 +5,7 @@
        let formData = new FormData(this);
        let actionURL = this.action;
 
-       console.log(actionURL);
+       console.log(formData);
 
        fetch(actionURL, {
            method: 'POST',
@@ -17,7 +17,7 @@
            .then(response => response.json())
            .then(data => {
                this.reset();
-               document.getElementById('message').innerText = "good";
+               document.getElementById('message').innerText = "Данные успешно отправлены!";
            })
            .catch(error => console.error('Error: ', error));
     });
