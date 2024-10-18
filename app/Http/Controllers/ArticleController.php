@@ -198,8 +198,6 @@ class ArticleController extends Controller
 
         return redirect()->route('article.show');
     }
-<<<<<<< Updated upstream
-=======
 
     public function saw_bird(Request $request) {
 
@@ -245,5 +243,4 @@ class ArticleController extends Controller
 
         return response()->json(['success' => 'success'], 200);
     }
->>>>>>> Stashed changes
 }
