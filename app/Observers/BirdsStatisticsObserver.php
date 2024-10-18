@@ -16,16 +16,15 @@ class BirdsStatisticsObserver
     public function created(BirdsStatistic $birdsStatistic): void
     {
         $oneWeekAgo = Carbon::now()->subDays(7);
-
         $otherUsers = BirdsStatistic::where('bird_id', $birdsStatistic->bird_id)
             ->where('user_id', '!=', $birdsStatistic->user_id)
             ->where('date_seen', '>', $oneWeekAgo)
             ->exists();
 
         if (!$otherUsers) {
-            $records = BirdsStatistic::where('bird_id', $birdsStatistic->bird_id)
-                ->where('user_id', '!=', $birdsStatistic->user_id)
-                ->where('date_seen', '>', $oneWeekAgo)
+            $records = BirdsStatistic::where('bird_id', $birdsStatistic['bird_id'])
+                ->where('user_id', '!=', $birdsStatistic['user_id'])
+                ->where('date_seen', '<=', $oneWeekAgo)
                 ->get();
 
             $userIDs = $records->pluck('user_id')->unique();
