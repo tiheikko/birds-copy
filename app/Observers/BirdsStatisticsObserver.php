@@ -22,7 +22,11 @@ class BirdsStatisticsObserver
             ->where('date_seen', '>', $oneWeekAgo)
             ->exists();
 
-        if (!$otherUsers) {
+        $otherUsersSaw = BirdsStatistic::where('bird_id', $birdsStatistic->bird_id)
+            ->where('user_id', '!=', $birdsStatistic->user_id)
+            ->exists();
+
+        if (!$otherUsers and $otherUsersSaw) {
             $users = User::where('id', '!=', $birdsStatistic->user_id)->get();
 
             foreach ($users as $user) {
