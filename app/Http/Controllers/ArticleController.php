@@ -8,16 +8,11 @@ use App\Models\Family;
 use App\Models\Genus;
 use App\Models\Image;
 use App\Models\Article;
-use App\Models\BirdsStatistic;
-use App\Models\User;
 
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Validator;
-
-use Carbon\Carbon;
 
 class ArticleController extends Controller
 {
@@ -26,9 +21,8 @@ class ArticleController extends Controller
         $bird = Species::find($id);
         $article = Article::where('bird_id', $id)->first();
         $main_img = Image::where('species_id', $id)->first();
-        $count_users = BirdsStatistic::where('bird_id', $id)->distinct('user_id')->count();
 
-        return view('article.index', compact('species', 'article', 'main_img', 'count_users'));
+        return view('article.index', compact('species', 'article', 'main_img'));
     }
 
     public function create() {
@@ -207,9 +201,9 @@ class ArticleController extends Controller
 
     public function saw_bird(Request $request) {
 
-        /*$bird_id = intval($request->input('bird_id'));
+        $bird_id = intval($request->input('bird_id'));
         $user_id = intval($request->input('user_id'));
-        $date_seen = Carbon::createFromFormat('Y-m-d', $request->input('date'));
+        $date_seen = Carbon::parse($request->input('date'));
         $latitude = floatval($request->input('latitude'));
         $longitude = floatval($request->input('longitude'));
 
@@ -225,8 +219,6 @@ class ArticleController extends Controller
             'longitude' => $longitude,
         ];
 
-        dd($data);
-
         $validated = Validator::make($data, [
             'bird_id' => 'required|exists:species,id',
             'user_id' => 'required|exists:users,id',
@@ -239,22 +231,16 @@ class ArticleController extends Controller
             return response()->json(['errors' => $validated->errors()], 400);
         }
 
+        $validated = $validated->validated();
+
         $record = BirdsStatistic::create([
             'bird_id' => $validated['bird_id'],
             'user_id' => $validated['user_id'],
             'date_seen' => $validated['date_seen'],
             'latitude' => $validated['latitude'],
             'longitude' => $validated['longitude'],
-        ]);*/
-
-        $record = BirdsStatistic::create([
-            'bird_id' => $request->input('bird_id'),
-            'user_id' => $request->input('user_id'),
-            'date_seen' => $request->input('date'),
-            'latitude' => $request->input('latitude'),
-            'longitude' => $request->input('longitude'),
         ]);
 
-        return response()->json(['success' => true, 'message' => 'successfully']);
+        return response()->json(['success' => 'success'], 200);
     }
 }
