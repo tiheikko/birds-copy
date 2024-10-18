@@ -9,11 +9,15 @@ use App\Models\Genus;
 use App\Models\Image;
 use App\Models\Article;
 use App\Models\BirdsStatistic;
+use App\Models\User;
 
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
+
+use Carbon\Carbon;
 
 class ArticleController extends Controller
 {
@@ -202,16 +206,45 @@ class ArticleController extends Controller
     }
 
     public function saw_bird(Request $request) {
-        /*$validated = $request->validate([
-            'data' => 'required|string"max:255',
+
+        /*$bird_id = intval($request->input('bird_id'));
+        $user_id = intval($request->input('user_id'));
+        $date_seen = Carbon::createFromFormat('Y-m-d', $request->input('date'));
+        $latitude = floatval($request->input('latitude'));
+        $longitude = floatval($request->input('longitude'));
+
+        if ($date_seen === false) {
+            return response()->json(['error' => 'Invalid date format'], 400);
+        }
+
+        $data = [
+            'bird_id' => $bird_id,
+            'user_id' => $user_id,
+            'date_seen' => $date_seen,
+            'latitude' => $latitude,
+            'longitude' => $longitude,
+        ];
+
+        dd($data);
+
+        $validated = Validator::make($data, [
             'bird_id' => 'required|exists:species,id',
             'user_id' => 'required|exists:users,id',
+            'date_seen' => 'required|date',
+            'latitude' => 'required|numeric',
+            'longitude' => 'required|numeric'
         ]);
+
+        if ($validated->fails()) {
+            return response()->json(['errors' => $validated->errors()], 400);
+        }
 
         $record = BirdsStatistic::create([
             'bird_id' => $validated['bird_id'],
             'user_id' => $validated['user_id'],
-            'where_seen' => $validated['data'],
+            'date_seen' => $validated['date_seen'],
+            'latitude' => $validated['latitude'],
+            'longitude' => $validated['longitude'],
         ]);*/
 
         $record = BirdsStatistic::create([
