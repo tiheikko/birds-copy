@@ -8,6 +8,7 @@ use App\Models\Family;
 use App\Models\Genus;
 use App\Models\Image;
 use App\Models\Article;
+use App\Models\BirdsStatistic;
 
 use Illuminate\Http\Request;
 
@@ -21,8 +22,9 @@ class ArticleController extends Controller
         $bird = Species::find($id);
         $article = Article::where('bird_id', $id)->first();
         $main_img = Image::where('species_id', $id)->first();
+        $count_users = BirdsStatistic::distinct('user_id')->where('bird_id', $id)->count();
 
-        return view('article.index', compact('species', 'article', 'main_img'));
+        return view('article.index', compact('species', 'article', 'main_img', 'count_users'));
     }
 
     public function create() {
