@@ -14,6 +14,9 @@ use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
+
+use Carbon\Carbon;
 
 class ArticleController extends Controller
 {
@@ -243,6 +246,6 @@ class ArticleController extends Controller
             'longitude' => $validated['longitude'],
         ]);
 
-        return response()->json(['success' => 'success'], 200);
+        return response()->json(['success' => 'successfully'], 200);
     }
 }
