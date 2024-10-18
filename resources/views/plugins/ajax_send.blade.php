@@ -5,8 +5,6 @@
        let formData = new FormData(this);
        let actionURL = this.action;
 
-       console.log(formData);
-
        fetch(actionURL, {
            method: 'POST',
            body: formData,
