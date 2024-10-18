@@ -46,6 +46,6 @@ class User extends Authenticatable
 
     public function statistics()
     {
-        return $this->belongsTo(BirdsStatistic::class, 'bird_id', 'id');
+        return $this->belongsTo(BirdsStatistic::class, 'user_id', 'id');
     }
 }
