@@ -1,7 +1,7 @@
 @extends('templates.header')
 
 @section('main_content')
-			
+
 			@if($article == null)
 				<h1>Упс! Статья еще не написана :(</h1>
 			@else
@@ -15,25 +15,25 @@
 							<p>Отряд: </p>
 							<form action="{{route('gallery.order', $species->order->latin_name)}}">
 					 			@csrf
-					 		
+
 					 			<button type="submit" name="order" value="{{ $species->order->id }}"> {{ $species->order->name }} </button>
 					 		</form>
 
 							<p>Семейство: </p>
 							<form action="{{route('gallery.family', $species->family->latin_name)}}">
 					 			@csrf
-					 		
+
 					 			<button type="submit" name="family" value="{{ $species->family->id }}"> {{ $species->family->name }}</button>
 					 		</form>
 
 							<p>Род: </p>
 							<form action="{{route('gallery.genus', $species->genus->latin_name)}}">
 					 			@csrf
-					 		
+
 					 			<button type="submit" name="genus" value="{{ $species->genus->id }}"> {{ $species->genus->name }}</button>
 					 		</form>
 
-							<p>Вид: </p> 
+							<p>Вид: </p>
 							<form>
 								<p>{{ $species->name }}</p>
 							</form>
@@ -59,7 +59,7 @@
 							</figure>
 						@endif
 						<p> {{ $article->appearance }} </p>
-						
+
 
 
 						<h3>Голос</h3>
@@ -82,7 +82,7 @@
 							</figure>
 						@endif
 						<p>{{ $article->breeding }}</p>
-						
+
 						<br>
 						<h2>Распространение</h2>
 						@if($article->habitat_img != null)
@@ -93,9 +93,42 @@
 						@endif
 						<p> {{ $article->habitat }} </p>
 					</div>
-				</div>
-			@endif
 
+                    <div class="who_saw_the_bird">
+                        <h2>Статистика по птице</h2>
+                        <div>
+                            <p>Сколько человек видело эту птицу: {{ $count_users }}</p>
+                        </div>
+
+                        <h3>Вы видели эту птицу? Тогда отметьте это!</h3>
+                        @auth
+                            <form action="" id="i_saw__button">
+                                @csrf
+
+                                <label for="date">Когда видели птицу? </label>
+                                <input type="date" name="date" id="date" max="{{ date('Y-m-d') }}" value="{{ date('Y-m-d') }}">
+
+                                <label for="latitude">Широта: </label>
+                                <input type="text" name="latitude" id="latitude" readonly>
+
+                                <label for="longitude">Долгота: </label>
+                                <input type="text" name="longitude" id="longitude" readonly>
+
+                                <div id="map" style="height: 300px; width: 50%"></div>
+
+                                <input type="hidden" name="bird_id" value="{{ $species->id }}">
+                                <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
+                                <button type="submit">Отправить</button>
+                            </form>
+
+                            <div id="message"></div>
+                        @else
+                            <p>Пожалуйста, <a href="{{ route('login') }}">войдите</a> или <a href="{{ route('register') }}">зарегистрируйтесь</a>, чтобы оставить наблюдение.</p>
+                        @endauth
+
+                        @endif
+                    </div>
+				</div>
 		</div>
 	</main>
 
