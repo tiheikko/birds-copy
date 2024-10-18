@@ -14,8 +14,6 @@
        })
            .then(response => response.json())
            .then(data => {
-               console.log(data);
-               this.reset();
                document.getElementById('message').innerText = "Данные успешно отправлены!";
            })
            .catch(error => console.error('Error: ', error));
