@@ -1,7 +1,7 @@
 @extends('templates.header')
 
 @section('main_content')
-			
+
 			<span class="all__category"></span hidden>
 			<div class="images">
 				@foreach($images as $image)
@@ -23,11 +23,11 @@
 							</div>
 						</div>
 					</a>
-				@endforeach	
+				@endforeach
 			</div>
-			
+
 		{{ $images->links() }}
-			
+
 
 		</div>
 	</main>

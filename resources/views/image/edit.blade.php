@@ -7,7 +7,7 @@
 	<h2>Изменение картинки</h2>
 
 	<div class="edit_image__block">
-		
+
 		<form action="{{ route('image.update', $image->id) }}" method="post" enctype="multipart/form-data">
 			@csrf
 			@method('patch')
@@ -15,7 +15,7 @@
 			<label for="order_id"> Отряд: </label>
 			<select name="order_id" onchange="selectOrder()">
 				<option value="{{$image->species->order_id}}" class="{{ $image->species->order->latin_name }}">{{$image->species->order->name}}</option>
-				
+
 				@foreach($orders as $order)
 					@if($order->id != $image->species->order_id)
 						<option value="{{ $order->id }}" class="{{ $order->latin_name }}"> {{ $order->name }}</option>
@@ -27,7 +27,7 @@
 			<label for="family_id"> Семейство: </label>
 			<select name="family_id" onchange="selectFamily()">
 				<option value="{{ $image->species->family_id }}" class="{{ $image->species->order->latin_name }} {{$image->species->family->latin_name}}"> {{$image->species->family->name}}</option>
-				
+
 				@foreach($families as $family)
 					@if($family->id != $image->species->family_id)
 						<option value="{{ $family->id }}" class="{{ $family->order->latin_name }} {{$family->latin_name}}"> {{ $family->name }} </option>
@@ -39,7 +39,7 @@
 			<label for="genus_id"> Род: </label>
 			<select name="genus_id" onchange="selectGenus()">
 				<option value="{{ $image->species->genus_id }}" class="{{ $image->species->order->latin_name }} {{ $image->species->family->latin_name }} {{ $image->species->genus->latin_name }}"> {{$image->species->genus->name}} </option>
-				
+
 				@foreach($genera as $genus)
 					@if($genus->id != $image->species->genus_id)
 						<option value="{{ $genus->id }}" class="{{ $genus->order->latin_name }} {{ $genus->family->latin_name }} {{ $genus->latin_name }}"> {{ $genus->name }} </option>
@@ -67,7 +67,7 @@
 
 		<div>
 			<h3>Текущая картинка</h3>
-			<img src="{{ asset('/public/' .  $image->img_url) }}" alt="{{ $image->species->name }}">
+			<img src="{{ asset('/public/' .  $image->img_url) }}" alt="{{ $image->species->name }}"zz>
 		</div>
 	</div>
 
