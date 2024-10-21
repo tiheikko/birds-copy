@@ -72,7 +72,7 @@ Route::get('/search_results', [SearchController::class, 'search'])->name('search
 //ARTICLES PAGES
 Route::get('/article/{species}', [ArticleController::class, 'index'])->name('article.index');
 Route::post('/article/{species}', [ArticleController::class, 'saw_bird'])->name('article.saw_bird'); // for sending form if a person has seen it
-Route::post('/article/{species}', [CommentController::class, 'store'])->name('comment.store');
+Route::post('/article/{species}/comment', [CommentController::class, 'store'])->name('comment.store');
 
 
 

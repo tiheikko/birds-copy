@@ -9,11 +9,13 @@
            method: 'POST',
            body: formData,
            headers: {
+               'Accept': 'application/json',
                'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').value
            }
        })
            .then(response => response.json())
            .then(data => {
+               console.log(data);
                document.getElementById('message').innerText = "Данные успешно отправлены!";
            })
            .catch(error => console.error('Error: ', error));
