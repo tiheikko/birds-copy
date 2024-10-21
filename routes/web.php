@@ -48,6 +48,30 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::get('/dashboard/statistics', [ProfileStatisticsController::class, 'index'])->name('statistics.index');
+
+    // ADMIN PAGES
+    Route::resources([
+        '/dashboard/image' => ImageController::class,
+        '/dashboard/order' => OrderController::class,
+        '/dashboard/family' => FamilyController::class,
+        '/dashboard/species' => SpeciesController::class,
+    ]);
+
+// laravel made weird routes like "/dashboard/genus/{genu}" so it didn't work correctly
+    Route::get('/dashboard/genus', [GenusController::class, 'index'])->name('genus.index');
+    Route::get('/dashboard/genus/create', [GenusController::class, 'create'])->name('genus.create');
+    Route::post('/dashboard/genus', [GenusController::class, 'store'])->name('genus.store');
+    Route::get('/dashboard/genus/{genus}', [GenusController::class, 'edit'])->name('genus.edit');
+    Route::patch('/dashboard/genus/{genus}', [GenusController::class, 'update'])->name('genus.update');
+    Route::delete('/dashboard/genus/{genus}', [GenusController::class, 'destroy'])->name('genus.destroy');
+
+
+    Route::get('/dashboard/article/create', [ArticleController::class, 'create'])->name('article.create');
+    Route::post('/dashboard/article', [ArticleController::class, 'store'])->name('article.store');
+    Route::get('/dashboard/articles/', [ArticleController::class, 'show'])->name('article.show');
+    Route::get('/dashboard/articles/{article}', [ArticleController::class, 'edit'])->name('article.edit');
+    Route::patch('/dashboard/articles/{article}', [ArticleController::class, 'update'])->name('article.update');
+    Route::delete('/dashboard/articles/{article}', [ArticleController::class, 'destroy'])->name('article.destroy');
 });
 
 require __DIR__.'/auth.php';
@@ -73,32 +97,6 @@ Route::get('/search_results', [SearchController::class, 'search'])->name('search
 Route::get('/article/{species}', [ArticleController::class, 'index'])->name('article.index');
 Route::post('/article/{species}', [ArticleController::class, 'saw_bird'])->name('article.saw_bird'); // for sending form if a person has seen it
 Route::post('/article/{species}/comment', [CommentController::class, 'store'])->name('comment.store');
-
-
-
-// ADMIN PAGES
-Route::resources([
-    '/dashboard/image' => ImageController::class,
-    '/dashboard/order' => OrderController::class,
-    '/dashboard/family' => FamilyController::class,
-    '/dashboard/species' => SpeciesController::class,
-]);
-
-// laravel made weird routes like "/dashboard/genus/{genu}" so it didn't work correctly
-Route::get('/dashboard/genus', [GenusController::class, 'index'])->name('genus.index');
-Route::get('/dashboard/genus/create', [GenusController::class, 'create'])->name('genus.create');
-Route::post('/dashboard/genus', [GenusController::class, 'store'])->name('genus.store');
-Route::get('/dashboard/genus/{genus}', [GenusController::class, 'edit'])->name('genus.edit');
-Route::patch('/dashboard/genus/{genus}', [GenusController::class, 'update'])->name('genus.update');
-Route::delete('/dashboard/genus/{genus}', [GenusController::class, 'destroy'])->name('genus.destroy');
-
-
-Route::get('/dashboard/article/create', [ArticleController::class, 'create'])->name('article.create');
-Route::post('/dashboard/article', [ArticleController::class, 'store'])->name('article.store');
-Route::get('/dashboard/articles/', [ArticleController::class, 'show'])->name('article.show');
-Route::get('/dashboard/articles/{article}', [ArticleController::class, 'edit'])->name('article.edit');
-Route::patch('/dashboard/articles/{article}', [ArticleController::class, 'update'])->name('article.update');
-Route::delete('/dashboard/articles/{article}', [ArticleController::class, 'destroy'])->name('article.destroy');
 
 
 Auth::routes();

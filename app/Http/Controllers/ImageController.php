@@ -11,6 +11,7 @@ use App\Models\Image;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 
 class ImageController extends Controller
 {
@@ -47,7 +48,7 @@ class ImageController extends Controller
         function checkPath($path) {
             if(!File::exists(public_path() . $path)) {
                 File::makeDirectory(public_path() . $path);
-            } 
+            }
         }
 
         $order = Order::find(request()->order_id)->latin_name;
@@ -65,17 +66,18 @@ class ImageController extends Controller
         checkPath($path);
 
 
-        $img = request()->file('img');
-        $img_name = $img->getClientOriginalName();
+        $image = $request->cropped_image;
 
-        $img->move(public_path() . $path, $img_name);
+        // Получаем только имя файла
+        $filename = uniqid() . '.png';
+        Storage::disk('public')->put("images/{$filename}", base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $image)));
 
         Image::create([
             'species_id' => request()->species_id,
-            'img_url' => $path . $img_name,
+            'img_url' => $path . $filename,
         ]);
 
-        return redirect()->route('image.create');
+        return redirect()->back()->with('success', 'Изображение успешно загружено!');
     }
 
     /**
