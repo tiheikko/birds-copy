@@ -106,7 +106,7 @@
                                 @csrf
 
                                 <label for="date">Когда видели птицу? </label>
-                                <input type="date" name="date" id="date" max="{{ date('Y-m-d') }}" value="{{ date('Y-m-d') }}">
+                                <input type="date" name="date_seen" id="date" max="{{ date('Y-m-d') }}" value="{{ date('Y-m-d') }}">
 
                                 <label for="latitude">Широта: </label>
                                 <input type="text" name="latitude" id="latitude" readonly>
@@ -118,6 +118,7 @@
 
                                 <input type="hidden" name="bird_id" value="{{ $species->id }}">
                                 <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
+                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                 <button type="submit">Отправить</button>
                             </form>
 
@@ -129,17 +130,17 @@
                         @endif
                     </div>
 
-                    <div class="comments">
+                    <div>
                         <h3>Комментарии</h3>
 
                         @auth
-                            <form action="{{route('comment.store', $article->id)}}" method="post">
+                            <form id="comments" action="{{route('comment.store', $article->id)}}" method="post">
                                 @csrf
 
                                 <input type="hidden" name="userID" value="{{auth()->user()->id}}">
                                 <input type="hidden" name="articleID" value="{{$article->id}}}">
                                 <input type="text" name="content">
-                                <button type="submit">send</button>
+                                <button id="comments_button" type="submit">send</button>
                             </form>
                         @endauth
 
