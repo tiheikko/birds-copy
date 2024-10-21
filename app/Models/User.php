@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
 use App\Models\BirdsStatistic;
+use App\Models\Comment;
 
 class User extends Authenticatable
 {
@@ -47,5 +48,9 @@ class User extends Authenticatable
     public function statistics()
     {
         return $this->belongsTo(BirdsStatistic::class, 'user_id', 'id');
+    }
+
+    public function comments() {
+        return $this->hasMany(Comment::class);
     }
 }

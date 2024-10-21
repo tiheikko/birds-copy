@@ -18,8 +18,21 @@ use Illuminate\Support\Facades\Validator;
 
 use Carbon\Carbon;
 
+use App\Services\CommentService;
+use App\DTO\CommentDTO;
+
 class ArticleController extends Controller
 {
+    protected $commentService;
+
+    public function __construct(CommentService $commentService) {
+        $this->commentService = $commentService;
+    }
+
+    public function getComments(int $articleID) {
+        return $this->commentService->getCommentsByArticleID($articleID);
+    }
+
     public function index(Species $species) {
         $id = $species->id;
         $bird = Species::find($id);
@@ -27,7 +40,9 @@ class ArticleController extends Controller
         $main_img = Image::where('species_id', $id)->first();
         $count_users = BirdsStatistic::distinct('user_id')->where('bird_id', $id)->count();
 
-        return view('article.index', compact('species', 'article', 'main_img', 'count_users'));
+        $comments = $this->getComments($article->id);
+
+        return view('article.index', compact('species', 'article', 'main_img', 'count_users', 'comments'));
     }
 
     public function create() {

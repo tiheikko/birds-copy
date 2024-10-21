@@ -128,6 +128,29 @@
 
                         @endif
                     </div>
+
+                    <div class="comments">
+                        <h3>Комментарии</h3>
+
+                        @auth
+                            <form action="{{route('comment.store', $article->id)}}" method="post">
+                                @csrf
+
+                                <input type="hidden" name="userID" value="{{auth()->user()->id}}">
+                                <input type="hidden" name="articleID" value="{{$article->id}}}">
+                                <input type="text" name="content">
+                                <button type="submit">send</button>
+                            </form>
+                        @endauth
+
+                        @foreach($comments as $comment)
+                            <div>
+                                <h4>{{$comment->user_name}}</h4>
+                                <p>{{$comment->comment}}</p>
+                                <p>{{$comment->created_at}}</p>
+                            </div>
+                        @endforeach
+                    </div>
 				</div>
 		</div>
 	</main>
