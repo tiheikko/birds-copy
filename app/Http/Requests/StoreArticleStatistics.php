@@ -12,7 +12,7 @@ class StoreArticleStatistics extends FormRequest
      */
     public function authorize(): bool
     {
-        return Auth::check();
+        return $this->user()->id == $this->user_id;
     }
 
     /**

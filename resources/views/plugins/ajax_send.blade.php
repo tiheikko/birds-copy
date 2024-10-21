@@ -15,7 +15,9 @@
        })
            .then(response => response.json())
            .then(data => {
-               console.log(data);
+               if(data['success'] != 'succesfully') {
+                   return 'wrong data';
+               }
                document.getElementById('message').innerText = "Данные успешно отправлены!";
            })
            .catch(error => console.error('Error: ', error));
