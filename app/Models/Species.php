@@ -12,6 +12,7 @@ use App\Models\Image;
 use App\Models\Article;
 use App\Models\BirdsStatistic;
 
+
 class Species extends Model
 {
     use HasFactory;
@@ -43,4 +44,6 @@ class Species extends Model
     {
         return $this->belongsTo(BirdsStatistic::class, 'bird_id', 'id');
     }
+
+
 }
